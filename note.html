@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<link rel="stylesheet" href="style.css">
+<meta name="robots" content="noindex, follow">
+<meta charset="utf-8">
+<title>シナリオリスト</title>
+</head>
+<body>
+<div>
+  <!-- カテゴリ -->
+	<div class="filter-section-title">
+	  <span class="icon">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+		  <path d="M10 4l2 2h8c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 
+		           0-2-.9-2-2V6c0-1.1.9-2 2-2h6z"/>
+		</svg>
+	  </span> カテゴリで絞り込み
+	</div>
+	<div id="filter_buttons">
+	  <button class="filter-btn" data-filter="cat-preq">前日譚</button>
+	  <button class="filter-btn" data-filter="cat-main">メイン</button>
+	  <button class="filter-btn" data-filter="cat-paso">パソスト</button>
+	  <button class="filter-btn" data-filter="cat-event">イベスト</button>
+	  <button class="filter-btn" data-filter="cat-card">カドスト</button>
+	</div>
+  <!-- 登場人物 -->
+	<div id="char_filter_toggle" class="filter-section-title" style="cursor:pointer;">
+	  <span class="icon">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+		  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+		</svg>
+	  </span> 登場人物で絞り込み ▼
+	</div>
+	<div id="char_filter_buttons" style="display:block; margin-bottom: 20px;">
+	  <!-- ここに登場人物ボタンが入る -->
+	</div>
+	<br>
+  <!-- キーワード -->
+	<div id="aporiaWord_filter_toggle" class="filter-section-title" style="cursor:pointer;">
+	  <span class="icon">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+		  <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 
+		           0 2-.9 2-2V8l-6-6zm0 7V3.5L18.5 9H14z"/>
+		</svg>
+	  </span> キーワードで絞り込み ▼
+	</div>
+	<div id="aporiaWord_filter_buttons" style="display:none; margin-bottom: 20px;">
+	  <!-- ここにキーワードボタンが入る -->
+	</div>
+	<br>
+  <!-- シナリオライター -->
+	<div id="scriptWriter_filter_toggle" class="filter-section-title" style="cursor:pointer;">
+	  <span class="icon">      
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
+        <path d="M20.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+      </svg>
+	  </span> シナリオライターで絞り込み ▼
+	</div>
+	<div id="scriptWriter_filter_buttons" style="display:none; margin-bottom: 20px;">
+	  <!-- ここにシナリオライターボタンが入る -->
+	</div>
+	<br>
+  <!-- ワード検索 -->
+	<div class="search-wrapper">
+	  <input type="text" id="search_box" placeholder="キーワード検索">
+	  <span class="search-icon">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+		  <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 
+		           6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 
+		           4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 
+		           5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/>
+		</svg>
+	  </span>
+	</div>
+	
+  <!-- 選択条件表示 -->
+	<div id="active_filters" style="margin: 10px 0; font-weight: bold;">
+	【絞り込み中】なし
+	</div>
+	
+	<div id="active_filters" style="margin: 10px 0;"></div>
+  <!-- 件数 -->
+	<div id="filter_count" style="margin: 6px 0; font-weight: bold;"></div>
+	<!-- 一覧 -->
+	<div id="story_list"></div>
+</div>
+<br>
+
+<div>
+  <a href="https://polaris-stless.boy.jp/brmy/tegalog/?postid=53">更新履歴</a><br>
+  <br>
+  当ページは株式会社coly『ブレイクマイケース』のシナリオをより楽しむために、ストーリーの要約および登場キャラについてまとめています。<br>
+  個人運営のサイトであり、公式とは一切関係ありません。<br>
+  公式の権利や利益を害することがないよう努めておりますが、問題ございましたら速やかに対応いたします。<br>
+  <a href="//odaibako.net/u/sugar20230423">問い合わせ先</a>
+</div>
+
+<!--javascript-->
+<script src="jquery-3.6.0.min.js"></script>
+<script language="javascript" type="text/javascript">
+
+let searchKeyword = "";
+
+const castNames = [
+  "皇坂 逢","城瀬 由鶴","須王 芦佳","綾戸 恋","宇京 真央","樋宮 明星",
+  "環野 揺","槻本 大河","壱川 春日","隠岐谷 誓","節見 静","御門 尊",
+  "新開 戦","相沢 篠信","在間 樹帆","祠堂 恭耶","立科 吏来","恩田 灯世",
+  "新名 有","神家","麻波 麗","主人公"
+];
+
+const subCastNames = [
+  "弥代 透吾","伊達 幸邑",
+  "富永 蓉子","小室 洋二","レア","おこげ","依頼人","イエロー","茂田 憲保"
+];
+
+const aporiaWords = [
+  "弥代父の話","皇坂父の話",
+  "真由の話","佐原の話","天羽嵐の話","demu","芦佳の神様",
+  "主人公の違和感","ﾜﾝﾐﾘｵﾝ事件","Aporia再起動","家族の話",
+  "芦佳の悪口","吏来の好き","恋の真面目か"
+];
+
+const scriptWriter = [
+  "藍田創","藍田創（監修）","伊月ジュイ","薄墨くもり","砂原有季",
+  "しじま智子","園部漣","堂島チロル","長沼奈ツ木","中山智美",
+  "晴日青","Vinaspin","藤谷燈子","不明"
+];
+
+$.getJSON("list_20261004.json", function(data) {
+
+	let html = "";
+
+	data.forEach(item => {
+
+	// 登場人物タグ生成
+	let tags = [];
+	for (let i = 1; i <= 31; i++) {
+	  if (item[`cha_${String(i).padStart(2, "0")}`] === "○") {
+	    tags.push(castNames[i - 1]);
+	  }
+	}
+	let tagsHTML = tags.map(t => `<span>${t}</span>`).join("");
+	
+	// サブ登場人物タグ生成
+	let tagsSub = [];
+	for (let i = 1; i <= 31; i++) {
+	  if (item[`subcha_${String(i).padStart(2, "0")}`] === "○") {
+	    tagsSub.push(subCastNames[i - 1]);
+	  }
+	}
+	let tagsSubchaHTML = tagsSub.map(t => `<span>${t}</span>`).join("");
+
+	// ワードタグ生成
+	let tagsAporiaWord = [];
+	for (let i = 1; i <= 31; i++) {
+	  if (item[`word_${String(i).padStart(2, "0")}`] === "○") {
+	    tagsAporiaWord.push(aporiaWords[i - 1]);
+	  }
+	}
+	let tagsAporiaWordHTML = tagsAporiaWord.map(t => `<span>${t}</span>`).join("");
+
+	// シナリオライタータグ生成
+	let tagsScriptWrite = [];
+	for (let i = 1; i <= 31; i++) {
+	  if (item[`writer_${String(i).padStart(2, "0")}`] === "○") {
+	    tagsScriptWrite.push(scriptWriter[i - 1]);
+	  }
+	}
+	let tagsScriptWriterHTML = tagsScriptWrite.map(t => `<span>${t}</span>`).join("");
+	
+	// col_01 に応じてカテゴリクラスを付ける
+	let categoryClass = "";
+	if (item.col_01 === "前日譚") categoryClass = "cat-preq";
+	else if (item.col_01 === "メイン") categoryClass = "cat-main";
+	else if (item.col_01 === "パソスト") categoryClass = "cat-paso";
+	else if (item.col_01 === "イベスト") categoryClass = "cat-event";
+	else if (item.col_01 === "カドスト") categoryClass = "cat-card";
+
+	// col_01 に応じてバッジも付ける
+	let badge = "";
+	if (item.col_01 === "前日譚") badge = `<span class="badge badge-preq">前日譚</span>`;
+	else if (item.col_01 === "メイン") badge = `<span class="badge badge-main">メイン</span>`;
+	else if (item.col_01 === "パソスト") badge = `<span class="badge badge-paso">パソスト</span>`;
+	else if (item.col_01 === "イベスト") badge = `<span class="badge badge-event">イベスト</span>`;
+	else if (item.col_01 === "カドスト") badge = `<span class="badge badge-card">カドスト</span>`;
+
+	// カードHTML生成
+	html += `
+	  <div class="story_item ${categoryClass}">
+	    <div class="story_title">
+	      ${badge}<p class="story_series_tag">${item.col_02}</p>
+	    </div>
+	    <div class="story_title">
+	      ${item.col_03} ${item.col_04}/${item.col_05}
+	    </div>
+	    <div class="story_place">シナリオライター：${tagsScriptWriterHTML} ／ 場所：${item.col_07}</div>
+	    <div class="story_summary">${item.col_06}</div>
+	    <div class="story_cast">${tagsHTML}${tagsSubchaHTML}</div>
+	    <div class="story_word">${tagsAporiaWordHTML}</div>
+	  </div>
+	`;
+  });
+  
+	castNames.forEach(name => {
+	  $("#char_filter_buttons").append(
+	    `<button class="char-filter-btn" data-char="${name}">${name}</button>`
+	  );
+	});
+		
+	subCastNames.forEach(name => {
+	  $("#char_filter_buttons").append(
+	    `<button class="char-filter-btn" data-char="${name}">${name}</button>`
+	  );
+	});
+	
+	aporiaWords.forEach(name => {
+	  $("#aporiaWord_filter_buttons").append(
+	    `<button class="word-filter-btn" data-word="${name}">${name}</button>`
+	  );
+	});
+	
+	scriptWriter.forEach(name => {
+	  $("#scriptWriter_filter_buttons").append(
+	    `<button class="writer-filter-btn" data-writer="${name}">${name}</button>`
+	  );
+	});
+	
+  $("#story_list").html(html);
+});
+
+let activeCategory = null;
+
+$(document).on("click", ".filter-btn[data-filter]", function() {
+  const filterClass = $(this).data("filter");
+
+  if (activeCategory === filterClass) {
+    activeCategory = null;
+    $(".filter-btn").removeClass("active");
+  } else {
+    activeCategory = filterClass;
+    $(".filter-btn").removeClass("active");
+    $(this).addClass("active");
+  }
+  applyFilters();
+});
+
+let selectedChars = [];
+$(document).on("click", ".char-filter-btn", function() {
+  const charName = $(this).data("char");
+
+  if (selectedChars.includes(charName)) {
+    selectedChars = selectedChars.filter(c => c !== charName);
+    $(this).removeClass("active");
+  } else {
+    selectedChars.push(charName);
+    $(this).addClass("active");
+  }
+  applyFilters();
+});
+
+let selectedKeyWords= [];
+$(document).on("click", ".word-filter-btn", function() {
+  const keyWord = $(this).data("word");
+
+  if (selectedKeyWords.includes(keyWord)) {
+    selectedKeyWords = selectedKeyWords.filter(c => c !== keyWord);
+    $(this).removeClass("active");
+  } else {
+    selectedKeyWords.push(keyWord);
+    $(this).addClass("active");
+  }
+  applyFilters();
+});
+
+let selectedScriptWriters= [];
+$(document).on("click", ".writer-filter-btn", function() {
+  const scriptWriter = $(this).data("writer");
+
+  if (selectedScriptWriters.includes(scriptWriter)) {
+    selectedScriptWriters = selectedScriptWriters.filter(c => c !== scriptWriter);
+    $(this).removeClass("active");
+  } else {
+    selectedScriptWriters.push(scriptWriter);
+    $(this).addClass("active");
+  }
+  applyFilters();
+});
+
+function updateFilterDisplay() {
+  let html = "";
+
+  // カテゴリ pill
+  if (activeCategory) {
+    const label = $(`.filter-btn[data-filter="${activeCategory}"]`).text();
+    html += `
+      <span class="filter-pill" data-type="category" data-value="${activeCategory}">
+        カテゴリ：${label}
+        <span class="pill-close">×</span>
+      </span>
+    `;
+  }
+
+  // 登場人物 pill
+  selectedChars.forEach(name => {
+    html += `
+      <span class="filter-pill" data-type="char" data-value="${name}">
+        登場人物：${name}
+        <span class="pill-close">×</span>
+      </span>
+    `;
+  });
+
+  // キーワード pill
+  selectedKeyWords.forEach(name => {
+    html += `
+      <span class="filter-pill" data-type="word" data-value="${name}">
+        キーワード：${name}
+        <span class="pill-close">×</span>
+      </span>
+    `;
+  });
+
+  // シナリオライター pill
+  selectedScriptWriters.forEach(name => {
+    html += `
+      <span class="filter-pill" data-type="writer" data-value="${name}">
+        シナリオライター：${name}
+        <span class="pill-close">×</span>
+      </span>
+    `;
+  });
+
+
+  // 検索キーワード pill
+  if (searchKeyword !== "") {
+    html += `
+      <span class="filter-pill" data-type="search" data-value="${searchKeyword}">
+        検索：${searchKeyword}
+        <span class="pill-close">×</span>
+      </span>
+    `;
+  }
+  
+  if (html === "") {
+    html = `<span class="filter-pill">なし</span>`;
+  }
+
+  $("#active_filters").html(html);
+}
+
+function applyFilters() {
+
+  $(".story_item").each(function() {
+
+    const item = $(this);
+
+    // ① カテゴリ判定
+    let categoryOK = true;
+    if (activeCategory !== null) {
+      categoryOK = item.hasClass(activeCategory);
+    }
+
+    // ② 登場人物判定（AND）
+    let charOK = true;
+    if (selectedChars.length > 0) {
+      const castList = item.find(".story_cast span").map(function() {
+        return $(this).text();
+      }).get();
+
+      charOK = selectedChars.every(c => castList.includes(c));
+    }
+
+    // ③ キーワード判定（AND）
+    let wordOK = true;
+    if (selectedKeyWords.length > 0) {
+      const keyWordList = item.find(".story_word span").map(function() {
+        return $(this).text();
+      }).get();
+
+      wordOK = selectedKeyWords.every(c => keyWordList.includes(c));
+    }
+
+    // ④ シナリオライター判定（AND）
+    let witerOK = true;
+    if (selectedScriptWriters.length > 0) {
+      const scriptWriterList = item.find(".story_place span").map(function() {
+        return $(this).text();
+      }).get();
+
+      witerOK = selectedScriptWriters.every(c => scriptWriterList.includes(c));
+    }
+
+    // ⑤ 検索判定（タイトル・本文・登場人物）
+    let searchOK = true;
+    if (searchKeyword !== "") {
+      const series = item.find(".story_series_tag").text();
+      const title = item.find(".story_title").text();
+      const body = item.find(".story_summary").text();
+      const place = item.find(".story_place").text();
+      const castText = item.find(".story_cast").text();
+
+      const allText = series + " " + title + " " + body + " " + place + " " + castText;
+
+      searchOK = allText.includes(searchKeyword);
+    }
+
+    // ④ 全部 AND で判定
+    if (categoryOK && charOK && searchOK && wordOK && witerOK) {
+      item.show();
+    } else {
+      item.hide();
+    }
+  });
+
+  updateFilterDisplay();
+  updateFilterCount();
+}
+
+
+$(document).on("click", "#char_filter_toggle", function() {
+  const box = $("#char_filter_buttons");
+
+  const iconSVG = `
+    <span class="char-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+      </svg>
+    </span>
+  `;
+
+  if (box.is(":visible")) {
+    box.slideUp(200);
+    $(this).html(`${iconSVG}登場人物で絞り込み ▼`);
+  } else {
+    box.slideDown(200);
+    $(this).html(`${iconSVG}登場人物で絞り込み ▲`);
+  }
+});
+
+
+$(document).on("click", "#aporiaWord_filter_toggle", function() {
+  const boxAporiaWord = $("#aporiaWord_filter_buttons");
+
+  const iconSVG = `
+    <span class="char-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+  <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 
+           0 2-.9 2-2V8l-6-6zm0 7V3.5L18.5 9H14z"/>
+      </svg>
+    </span>
+  `;
+
+  if (boxAporiaWord.is(":visible")) {
+    boxAporiaWord.slideUp(200);
+    $(this).html(`${iconSVG}キーワードで絞り込み ▼`);
+  } else {
+    boxAporiaWord.slideDown(200);
+    $(this).html(`${iconSVG}キーワードで絞り込み ▲`);
+  }
+});
+
+$(document).on("click", "#scriptWriter_filter_toggle", function() {
+  const boxScriptWriter = $("#scriptWriter_filter_buttons");
+
+  const iconSVG = `
+    <span class="char-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#2a6fbb">
+        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
+        <path d="M20.71 7.04a1.003 1.003 0 0 0 0-1.41l-2.34-2.34a1.003 1.003 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+      </svg>
+    </span>
+  `;
+
+  if (boxScriptWriter.is(":visible")) {
+    boxScriptWriter.slideUp(200);
+    $(this).html(`${iconSVG}シナリオライターで絞り込み ▼`);
+  } else {
+    boxScriptWriter.slideDown(200);
+    $(this).html(`${iconSVG}シナリオライターで絞り込み ▲`);
+  }
+});
+
+function updateFilterCount() {
+  const count = $(".story_item:visible").length;
+  $("#filter_count").text(`件数：${count} 件`);
+}
+
+$(document).on("input", "#search_box", function() {
+  searchKeyword = $(this).val().trim();
+  applyFilters();
+});
+
+$(document).on("click", ".pill-close", function() {
+  const pill = $(this).closest(".filter-pill");
+  const type = pill.data("type");
+  const value = pill.data("value");
+
+  if (type === "category") {
+    activeCategory = null;
+    $(".filter-btn").removeClass("active");
+  }
+
+  if (type === "char") {
+    selectedChars = selectedChars.filter(c => c !== value);
+    $(`.char-filter-btn[data-char="${value}"]`).removeClass("active");
+  }
+  
+  if (type === "word") {
+    selectedKeyWords = selectedKeyWords.filter(c => c !== value);
+    $(`.word-filter-btn[data-word="${value}"]`).removeClass("active");
+  }
+  
+  if (type === "writer") {
+    selectedScriptWriters = selectedScriptWriters.filter(c => c !== value);
+    $(`.writer-filter-btn[data-writer="${value}"]`).removeClass("active");
+  }
+
+  if (type === "search") {
+    searchKeyword = "";
+    $("#search_box").val("");
+  }
+
+  applyFilters();
+});
+
+</script>
+<button id="scrollTopBtn">▲ 上へ</button>
+<button id="scrollBottomBtn">▼ 下へ</button>
+<script>
+document.getElementById("scrollTopBtn").addEventListener("click", () => {
+window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
+});
+
+document.getElementById("scrollBottomBtn").addEventListener("click", () => {
+window.scrollTo({
+  top: document.body.scrollHeight,
+  behavior: "smooth"
+});
+});
+</script>
+</body>
+</html>
